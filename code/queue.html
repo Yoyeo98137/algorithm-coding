@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>code - queue</title>
+</head>
+
+<body>
+    <script>
+
+        /**
+         * 队列是遵循 FIFO（First In First Out，先进先出）原则的一组有序的项。
+         * - 队列在尾部添加新元素，并从顶部移除元素。
+         * - 最新添加的元素必须排在队列的末尾。
+         * - 队列只有 入队 push() 和出队 pop()。
+         * 
+         * 队列里面有一些声明的辅助方法：
+         * - enqueue(element)：向队列尾部添加新项。
+         * - dequeue()：移除队列的第一项，并返回被移除的元素。
+         * - front()：返回队列中第一个元素，队列不做任何变动。
+         * - isEmpty()：如果队列中不包含任何元素，返回 true，否则返回 false。
+         * - size()：返回队列包含的元素个数，与数组的 length 属性类似。
+         * - print()：打印队列中的元素。
+         * - clear()：清空整个队列。
+         */
+
+        // Queue类
+        function Queue() {
+            this.items = [];
+
+            // 向队列尾部添加元素
+            this.enqueue = function (element) {
+                this.items.push(element);
+            };
+
+            // 移除队列的第一个元素，并返回被移除的元素
+            this.dequeue = function () {
+                return this.items.shift();
+            };
+
+            // 返回队列的第一个元素
+            this.front = function () {
+                return this.items[0];
+            };
+
+            // 判断是否为空队列
+            this.isEmpty = function () {
+                return this.items.length === 0;
+            };
+
+            // 获取队列的长度
+            this.size = function () {
+                return this.items.length;
+            };
+
+            // 清空队列
+            this.clear = function () {
+                this.items = [];
+            };
+
+            // 打印队列里的元素
+            this.print = function () {
+                console.log(this.items.toString());
+            };
+        }
+
+        // 创建 Queue 实例
+        var queue = new Queue();
+        console.log(queue.isEmpty()); // true
+
+        queue.enqueue('John'); // undefined
+        queue.enqueue('Jack'); // undefined
+        queue.enqueue('Camila'); // undefined
+        queue.print(); // "John,Jack,Camila"
+
+        console.log(queue.size()); // 3
+        console.log(queue.isEmpty()); // false
+
+        queue.dequeue(); // "John"
+        queue.dequeue(); // "Jack"
+        queue.print(); // "Camila"
+        
+        queue.clear(); // undefined
+        console.log(queue.size()); // 0
+
+    </script>
+</body>
+
+</html>

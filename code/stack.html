@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>code - stack</title>
+</head>
+
+<body>
+    <script>
+
+        /**
+         * - 后进者先出，先进者后出，简称 后进先出（LIFO），这就是典型的栈结构。
+         * - 新添加的或待删除的元素都保存在栈的末尾，称作栈顶，另一端就叫栈底。
+         * - 在栈里，新元素都靠近栈顶，旧元素都接近栈底。
+         * - 从栈的操作特性来看，是一种 操作受限的线性表，只允许在一端插入和删除数据。
+         * - 不包含任何元素的栈称为空栈。
+         * 
+         * 栈的方法：
+         * - push(element)：添加一个（或几个）新元素到栈顶。
+         * - pop()：移除栈顶的元素，同时返回被移除的元素。
+         * - peek()：返回栈顶的元素，不对栈做任何修改。
+         * - isEmpty()：如果栈里没有任何元素就返回 true，否则返回 false。
+         * - clear()：移除栈里的所有元素。
+         * - size()：返回栈里的元素个数。
+         */
+        function Stack() {
+            this.items = [];
+
+            // 添加新元素到栈顶
+            this.push = function (element) {
+                this.items.push(element);
+            };
+            // 移除栈顶元素，同时返回被移除的元素
+            this.pop = function () {
+                return this.items.pop();
+            };
+            // 查看栈顶元素
+            this.peek = function () {
+                return this.items[this.items.length - 1];
+            };
+            // 判断是否为空栈
+            this.isEmpty = function () {
+                return this.items.length === 0;
+            };
+            // 清空栈
+            this.clear = function () {
+                this.items = [];
+            };
+            // 查询栈的长度
+            this.size = function () {
+                return this.items.length;
+            };
+            // 打印栈里的元素
+            this.print = function () {
+                console.log(this.items.toString());
+            };
+        }
+
+        // 创建 Stack 实例
+        var stack = new Stack();
+        console.log(stack.isEmpty()); // true
+
+        stack.push(5); // undefined
+        stack.push(8); // undefined
+        console.log(stack.peek()); // 8
+
+        stack.push(11); // undefined
+        console.log(stack.size()); // 3
+        console.log(stack.isEmpty()); // false
+
+        stack.push(15); // undefined
+        stack.pop(); // 15
+        console.log(stack.size()); // 3
+
+        stack.print(); // 5,8,11
+        stack.clear(); // undefined
+        console.log(stack.size()); // 0
+
+    </script>
+</body>
+
+</html>
