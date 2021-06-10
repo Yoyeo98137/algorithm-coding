@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>code - bubble_sort</title>
+</head>
+
+<body>
+    <script>
+        (function () {
+
+            // 冒泡排序（未优化）
+            const bubbleSort = arr => {
+                console.time('改进前冒泡排序耗时');
+                const length = arr.length;
+                if (length <= 1) return;
+                // i < length - 1 是因为外层只需要 length-1 次就排好了，第 length 次比较是多余的。
+
+                // 由于 两两相对，所以 外循环 比对的次数是 arr.length-1
+
+                for (let i = 0; i < length - 1; i++) {
+                    // j < length - i - 1 是因为内层的 length-i-1 到 length-1 的位置已经排好了，不需要再比较一次。
+
+                    /*
+                        第一次比较：len-1
+                        第二次比较：len-1-1 
+                        因为外层循环过一次后，最后一项一定是 大于 最后一项的前一项的
+                        len > len - 1 一定成立
+                        ...
+                        第 n 次比较：len-n
+                        第 n+1 次比较：len-n-1
+
+                        故内循环结束条件是：j < len - i - 1
+                    */
+
+                    for (let j = 0; j < length - i - 1; j++) {
+                        if (arr[j] > arr[j + 1]) {
+                            // 如果当前值大于 下一项 的值，则进行值交换 swap
+                            const temp = arr[j];
+                            arr[j] = arr[j + 1];
+                            arr[j + 1] = temp;
+                        }
+                    }
+                }
+                console.log('改进前 arr :', arr);
+                console.timeEnd('改进前冒泡排序耗时');
+            };
+
+            // 冒泡排序（已优化）
+            // 当某次冒泡操作已经没有数据交换时，说明已经达到完全有序，不用再继续执行后续的冒泡操作。
+            const bubbleSort2 = arr => {
+                console.time('改进后冒泡排序耗时');
+                const length = arr.length;
+                if (length <= 1) return;
+                // i < length - 1 是因为外层只需要 length-1 次就排好了，第 length 次比较是多余的。
+
+                for (let i = 0; i < length - 1; i++) {
+                    let hasChange = false; // 提前退出冒泡循环的标志位
+                    // j < length - i - 1 是因为内层的 length-i-1 到 length-1 的位置已经排好了，不需要再比较一次。
+                    for (let j = 0; j < length - i - 1; j++) {
+                        if (arr[j] > arr[j + 1]) {
+                            const temp = arr[j];
+                            arr[j] = arr[j + 1];
+                            arr[j + 1] = temp;
+                            hasChange = true; // 表示有数据交换
+                        }
+                    }
+
+                    if (!hasChange) break; // 如果 false 说明所有元素已经到位，没有数据交换，提前退出
+                }
+                console.log('改进后 arr :', arr);
+                console.timeEnd('改进后冒泡排序耗时');
+            };
+
+            // 测试
+            const arr = [7, 8, 4, 5, 6, 3, 2, 1];
+            bubbleSort(arr);
+
+            const arr2 = [7, 8, 4, 5, 6, 3, 2, 1];
+            bubbleSort2(arr2);
+
+        })()
+    </script>
+</body>
+
+</html>
