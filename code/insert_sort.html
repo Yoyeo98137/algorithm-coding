@@ -22,19 +22,25 @@
                 for (let i = 1; i < len; i++) {
                     // 为什么是取上一个元素的下标而不是上一个元素的值，因为要通过下标确定插入位置
                     preIndex = i - 1;  // 待比较元素的下标
-                    current = array[i];  // 当前元素
-                    
-                    // 如果上一个元素的值大于当前元素 且 待比较元素下标 存在
+                    current = array[i];  // 当前元素 相当于拿个变量 '保存' 一下 当前元素，准备后面插入位置
+
+                    // 待比较元素下标 存在 且 待比较元素的值大于当前元素
                     while (preIndex >= 0 && array[preIndex] > current) {
-                        // 前置条件之一: 待比较元素比当前元素大
-                        array[preIndex + 1] = array[preIndex];  // 将待比较元素后移一位
+                        // 将原本 当前元素 位置的值赋值为上一个 待比较元素 此时原先元素下标存储的值与待比较值相同
+                        array[preIndex + 1] = array[preIndex];
                         preIndex--;  // 游标前移一位
                     }
-                    if (preIndex + 1 != i) {
-                        // 避免同一个元素赋值给自身
-                        array[preIndex + 1] = current; //将当前元素插入预留空位
-                        console.log('array: ', array);
-                    }
+
+                    // 这段好像不是必要的
+                    // if (preIndex + 1 != i) {
+                    //     // 避免同一个元素赋值给自身
+                    //     array[preIndex + 1] = current;  // 将当前元素插入预留空位
+                    //     console.log('array: ', array);
+                    // }
+
+                    // 拿到最后一次比较的 待比较元素，再其后面即 下标 +1 位置插入保存的当前元素
+                    array[preIndex + 1] = current;  // 将当前元素插入预留空位
+                    console.log('array: ', array);
                 }
                 return array;
             };
