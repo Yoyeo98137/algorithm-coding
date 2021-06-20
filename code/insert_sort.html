@@ -12,12 +12,13 @@
     <script>
         (function () {
 
-            // 插入排序
+            // 直接插入排序
             const insertionSort = array => {
                 const len = array.length;
                 if (len <= 1) return
 
-                let preIndex, current;
+                let preIndex, 
+                    current;
                 // 由于要取 上一个 元素作为待比较的目标，所以这里从下标 1 开始循环，小于 数组长度 结束
                 for (let i = 1; i < len; i++) {
                     // 为什么是取上一个元素的下标而不是上一个元素的值，因为要通过下标确定插入位置
@@ -40,21 +41,79 @@
 
                     // 拿到最后一次比较的 待比较元素，再其后面即 下标 +1 位置插入保存的当前元素
                     array[preIndex + 1] = current;  // 将当前元素插入预留空位
-                    console.log('array: ', array);
+                    // console.log('array: ', array);
                 }
+                return array;
+            };
+
+            // 折半插入排序
+            const binaryInsertionSort = array => {
+                const len = array.length;
+                if (len <= 1) return;
+
+                let current,
+                    i,
+                    j, 
+                    minIndex, 
+                    maxIndex, 
+                    middleIndex;
+                for (i = 1; i < len; i++) {
+                    minIndex = 0;
+                    maxIndex = i - 1;
+                    current = array[i];  // 存储当前位置元素
+
+                    console.log('')
+                    console.log('#### arr2: ', array)
+                    console.log('#### arr2 minIndex: ', minIndex)
+                    console.log('#### arr2 maxIndex: ', maxIndex)
+                    console.log('#### arr2 current: ', current)
+
+                    // 当 左临界 小于 右临界 时，进入循环
+                    while (minIndex <= maxIndex) {
+                        // 步骤 1 & 2 : 折半查找
+                        // 注: x>>1 是位运算中的右移运算, 表示右移一位, 等同于 x 除以 2 再取整, 即 x>>1 == Math.floor(x/2) .
+                        middleIndex = (minIndex + maxIndex) >> 1;
+                        console.log('#### arr2 middleIndex: ', middleIndex)
+                        if (array[i] >= array[middleIndex]) {
+                            // 值相同时, 切换到前半区，保证稳定性
+                            minIndex = middleIndex + 1;  // 插入点在前半区 
+                        } else {
+                            // 跳出循环
+                            maxIndex = middleIndex - 1;  // 插入点在后半区
+                        }
+                    }
+
+                    for (j = i; j > minIndex; j--) {
+                        // 步骤 3: 插入位置之后的元素全部后移一位
+                        array[j] = array[j - 1];
+                        console.log('array2 :', JSON.parse(JSON.stringify(array)));
+                    }
+                    // 后移的时候 会重复了前面的值，插入的时候就是将正确的值赋给前面的元素
+                    array[minIndex] = current;  // 步骤 4: 插入该元素
+                }
+
+                // console.log('array2 :', JSON.parse(JSON.stringify(array)));
                 return array;
             };
 
             // 测试
             const array = [5, 4, 3, 2, 1];
             console.log("原始 array :", array);
+            console.time()
             insertionSort(array);
+            console.timeEnd()
             // 原始 array:      [5, 4, 3, 2, 1]
             // array:           [4, 5, 3, 2, 1]
             // array:           [3, 4, 5, 2, 1]
             // array:           [2, 3, 4, 5, 1]
             // array:           [1, 2, 3, 4, 5]
 
+            const array2 = [5, 4, 3, 2, 1];
+            console.log("原始 array2 :", array2);
+            console.time()
+            binaryInsertionSort(array2);
+            console.timeEnd()
+            
         })()
     </script>
 </body>
