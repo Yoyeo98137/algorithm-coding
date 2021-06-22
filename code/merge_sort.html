@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>code - merge_sort</title>
+</head>
+
+<body>
+    <script>
+        (function () {
+
+            const mergeSort = arr => {
+                // 采用自上而下的递归方法
+                const len = arr.length;
+                if (len < 2) return arr;
+
+                // length >> 1 和 Math.floor(len / 2) 等价
+                let middle = Math.floor(len / 2),
+                    left = arr.slice(0, middle),
+                    right = arr.slice(middle);  // 拆分为两个子数组
+                
+                console.log('#### middle: ', middle)
+                console.log('#### left: ', left)
+                console.log('#### right: ', right)
+                console.log('')
+
+                // mergeSort 一直向下 “递”，直到达到条件 len < 2 时退出，
+                // 每 “递” 一次，merge 调用的次数就加一次
+                return merge(mergeSort(left), mergeSort(right));
+            };
+
+            // 通过 “归“，这里接收到的第一个 left/right 一定是一个长度为一的数组
+            // 通过 result 存储结果数组，每 “归” 一次，result 就变化一次
+            const merge = (left, right) => {
+                const result = [];
+
+                console.log('#### left: ', left)
+                console.log('#### right: ', right)
+
+                // 当 左右区 都存在数据的时候，进行相互比对
+                while (left.length && right.length) {
+                    // 注意: 判断的条件是小于或等于，如果只是小于，那么排序将不稳定.
+                    if (left[0] <= right[0]) {
+                        result.push(left.shift());
+                    } else {
+                        result.push(right.shift());
+                    }
+                }
+
+                // 上面统一比对完后，如果 左/右区 仍存在数据，继续相应的 push
+                while (left.length) result.push(left.shift());
+                while (right.length) result.push(right.shift());
+
+                console.log('#### result: ', result)
+                console.log('')
+
+                return result;
+            };
+
+            // 测试
+            const arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
+            console.time('归并排序耗时');
+            console.log('arr :', mergeSort(arr));
+            console.timeEnd('归并排序耗时');
+            // arr : [2, 3, 4, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50]
+            // 归并排序耗时: 0.739990234375ms
+        })()
+    </script>
+</body>
+
+</html>
