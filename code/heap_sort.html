@@ -37,16 +37,29 @@
              */
 
             /**
-             * 创建一个大顶堆，大顶堆的堆顶一定是最大的元素。
-             * 交换第一个元素和最后一个元素，让剩余的元素继续调整为大顶堆。
+             * 创建一个大顶堆，大顶堆的 **堆顶** 一定是最大的元素。
+             * 交换第一个元素和最后一个元素，让 **剩余** 的元素继续调整为大顶堆。
              * 从后往前以此和第一个元素交换并重新构建，排序完成。
              */
-            function heapSort(array) {
+            function heapSortFirst(array) {
+                console.log('before heapSortFirst: ', array);
+                // 现在构建出来的这个 大顶堆，是初始的 '无序区'
                 creatHeap(array);
-                console.log(array);
-                // 交换第一个和最后一个元素，然后重新调整大顶堆
+                console.log('')
+                console.log('heapSortFirst: ', array);
+                // 根据堆的特性，堆顶元素一定是最大值
+                // 此时交换元素之后，就得到了一个新的 无序区，和一个新的 有序区（从原先的堆顶交换到最后，最开始只有这一个 最大 的元素）
+                // R[1] >>swap>> R[n] >>> [R1, R2, ... Rn-1] and [Rn]
                 for (let i = array.length - 1; i > 0; i--) {
+                    // 交换第一个和最后一个元素
                     [array[i], array[0]] = [array[0], array[i]];
+                    console.log('')
+                    console.log('###### heapSortFirst - i:', i)
+                    console.log('###### heapSortFirst - arr: ', arr)
+
+                    // 由于交换后新的堆顶 R[1] 可能违反堆的性质，所以要重新调整大顶堆
+                    // 把当前 无序区 的第一个元素作为目标元素
+                    // 每构建一个 '新堆'，对应的下标减一，就是减去 有序区 的长度
                     adjust(array, 0, i);
                 }
                 return array;
@@ -54,29 +67,55 @@
             // 构建大顶堆，从第一个非叶子节点开始，进行下沉操作
             function creatHeap(array) {
                 const len = array.length;
+                console.log('creatHeap - len: ', len)
                 // 这里为什么要 - 1，就是因为把 完全二叉树 假想成 数组的时候，默认是以下标 1 开始的
                 // 所以这里在拿到下标的时候，需要向前回退一位
                 const start = parseInt(len / 2) - 1;
+                console.log('creatHeap - start: ', start)
                 for (let i = start; i >= 0; i--) {
+                    console.log('')
+                    console.log('creatHeap - i: ', i)
                     adjust(array, i, len);
                 }
             }
             // 将第target个元素进行下沉，孩子节点有比他大的就下沉
+            // 为什么叫 下沉，因为我们要构建一个 正序排序 也就是从小到大，那就是 小顶堆，则遇到较大的节点往下推
             function adjust(array, target, len) {
-                for (let i = 2 * target + 1; i < len; i = 2 * i + 1) {
-                    // 找到孩子节点中最大的
-                    if (i + 1 < len && array[i + 1] > array[i]) {
-                        i = i + 1;
+                for (let j = 2 * target + 1; j < len; j = 2 * j + 1) {
+                    console.log('')
+                    console.log('adjust - j: ', j)
+                    console.log('adjust - len: ', len)
+                    // 如果还能往后找到节点 且 后一个节点比当前节点要大
+                    if (j + 1 < len && array[j + 1] > array[j]) {
+                        // 找到孩子节点中最大的
+                        j = j + 1;
+                        console.log('adjust - j - 1: ', j)
+                        console.log('adjust - j - 1 - array: ', array)
                     }
-                    // 下沉
-                    if (array[i] > array[target]) {
-                        [array[i], array[target]] = [array[target], array[i]]
-                        target = i;
+                    // 当前节点比后一个节点大，要的就是把越大的节点越往后推
+                    // 这样再重新构建 '新堆' 的时候，较大的节点就被推去 有序区
+                    if (array[j] > array[target]) {
+                        // 下沉（前后交换）
+                        [array[j], array[target]] = [array[target], array[j]]
+                        target = j;
+                        console.log('adjust - j - 2 - target: ', target)
+                        console.log('adjust - j - 2 - j: ', j)
+                        console.log('adjust - j - 2 - array: ', array)
+ 
                     } else {
+                        console.log('adjust - j - 3: ', j)
+                        console.log('adjust - j - 3 - array: ', array)
                         break;
                     }
                 }
             }
+
+            let arr = [7, 9, 1, 4, 2, 3]
+            let endArr = heapSortFirst(arr)
+            console.log('endArr: ', endArr)
+
+
+            return
 
             // #####################################################################
 
