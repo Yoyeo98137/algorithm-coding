@@ -6,6 +6,9 @@
 
 如果存在一值在数组中出现至少两次，函数返回 true 。如果数组中每个元素都不相同，则返回 false 。
 
+### 难度
+
+⭐
 
 ### 示例
 
@@ -39,6 +42,28 @@
 ```javascript
 
 /**
+ * 排序
+ * 
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var containsDuplicate = function(nums) {
+    nums.sort((a, b) => a - b);
+    const n = nums.length;
+    for (let i = 0; i < n - 1; i++) {
+        if (nums[i] === nums[i + 1]) {
+            return true;
+        }
+    }
+    return false;
+};
+
+时间复杂度：O(NlogN)，其中 N 为数组的长度。因为需要对数组进行排序。
+空间复杂度：O(logN)，其中 N 为数组的长度。注意我们在这里应当考虑递归调用栈的深度。
+
+/**
+ * 哈希表
+ *
  * @param {number[]} nums
  * @return {boolean}
  */
@@ -52,6 +77,9 @@ var containsDuplicate = function(nums) {
 
     return false
 };
+
+时间复杂度：O(N)，其中 N 为数组的长度。
+空间复杂度：O(N)，其中 N 为数组的长度。
 
 ```
 
