@@ -88,7 +88,7 @@ var reverseList = function(head) {
 
 
 /**
- * 迭代
+ * 双（三）指针 + 迭代
  *
  * @param {ListNode} head
  * @return {ListNode}
